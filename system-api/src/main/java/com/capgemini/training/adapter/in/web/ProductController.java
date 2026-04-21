@@ -1,32 +1,38 @@
 package com.capgemini.training.adapter.in.web;
 
-
-import com.capgemini.training.application.port.in.CreateProductUseCase;
-import com.capgemini.training.application.port.in.GetProductUseCase;
-
+import com.capgemini.training.adapter.in.web.dto.ProductResponse;
+import com.capgemini.training.application.service.ProductService;
 import com.capgemini.training.domain.model.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 public class ProductController {
-    private final CreateProductUseCase createUseCase;
-    private final GetProductUseCase getUseCase;
 
-    public ProductController(CreateProductUseCase createUseCase, GetProductUseCase getUseCase) {
-        this.createUseCase = createUseCase;
-        this.getUseCase = getUseCase;
-    }
+    private final ProductService productService;
 
-    @PostMapping("/product")
-    public Product create(@RequestParam ("name") String name, @RequestParam ("price") double price) {
-        return createUseCase.create(name, price);
-    }
+    // ---------- Existing endpoints ----------
+    // POST /api/v1/products
+    // GET  /api/v1/products/{id}
+    // GET  /api/v1/products (paged)
+    // DELETE /api/v1/products/{id}
 
-    @GetMapping("/product")
-    public String getProduct() {
-        return getUseCase.getProduct();
+    // ---------- ✅ INTERNAL CLEAN LIST (FOR MIDDLEWARE) ----------
+    @GetMapping("/internal/list")
+    public List<ProductResponse> listInternal(
+            @RequestParam int page,
+            @RequestParam int size) {
+
+        return productService
+                .list(PageRequest.of(page, size))
+                .getContent()
+                .stream()
+                .map(ProductResponse::from)
+                .toList();
     }
 }

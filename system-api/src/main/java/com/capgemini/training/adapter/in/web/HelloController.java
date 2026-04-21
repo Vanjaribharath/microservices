@@ -1,15 +1,15 @@
-//package com.capgemini.training;
-//
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//@RestController
-//public class HelloController {
-//
-//    @GetMapping("/hello")
-//        public String hello() {
-//            return "Hello Bharath";
-//        }
-//
-//}
-//
+package com.capgemini.training.adapter.in.web;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @GetMapping("/hello")
+        public String hello() {
+            return "Hello Bharath";
+        }
+
+}
+

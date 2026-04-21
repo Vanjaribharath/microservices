@@ -1,50 +1,81 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
- 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
- 
+
+    <!-- ✅ REQUIRED: Spring Boot Parent -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/>
+    </parent>
+
+    <!-- Root project coordinates -->
     <groupId>com.capgemini.training</groupId>
     <artifactId>microservices-training</artifactId>
     <version>1.0.0-SNAPSHOT</version>
- 
     <packaging>pom</packaging>
- 
+
+    <!-- ✅ Modules -->
     <modules>
-        <module>bff-gateway</module>
-        <module>middleware</module>
         <module>system-api</module>
+        <module>middleware</module>
+        <module>bff-gateway</module>
     </modules>
- 
+
+    <!-- ✅ Common properties -->
     <properties>
         <java.version>21</java.version>
-        <spring-boot.version>3.2.5</spring-boot.version>
+
+        <!-- Spring Cloud compatible with Boot 3.2.x -->
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
     </properties>
 
-
+    <!-- ✅ Dependency Management (Cloud BOM only) -->
     <dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <version>${spring-boot.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-dependencies</artifactId>
-            <version>2023.0.1</version> <!-- You should match the Release Train -->
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
- 
+        <dependencies>
+
+
+                    <dependency>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-dependencies</artifactId>
+                        <version>2023.0.1</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+
+            <!-- Spring Cloud BOM -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- ✅ Plugin management (optional but clean) -->
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!-- Java 21 compiler -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <release>${java.version}</release>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>
- 

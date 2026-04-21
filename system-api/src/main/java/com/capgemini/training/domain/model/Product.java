@@ -1,46 +1,22 @@
 package com.capgemini.training.domain.model;
-public class Product {
 
-    private Long id;
-    private String name;
-    private double price;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
-    // No-args constructor
-
-    public Product() {
-    }
-
-    // All-args constructor
-    public Product(Long id, String name, double price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
-
-    // Getter and Setter for id
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    // Getter and Setter for name
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // Getter and Setter for price
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
+public record Product(
+        UUID id,
+        String name,
+        BigDecimal price,
+        Long categoryId,
+        Long supplierId,
+        ProductStatus status,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+) {
+    public Product {
+        if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Price must be >= 0");
+        }
     }
 }

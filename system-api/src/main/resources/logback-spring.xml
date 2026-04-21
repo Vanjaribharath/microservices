@@ -1,0 +1,57 @@
+<configuration>
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
+            <customFields>{"service":"middleware"}</customFields>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- Console JSON logs -->
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
+            <includeMdcKeyName>traceId</includeMdcKeyName>
+            <includeMdcKeyName>spanId</includeMdcKeyName>
+            <customFields>{"service":"system-api","env":"dev"}</customFields>
+        </encoder>
+    </appender>
+
+    <!-- File JSON logs (centralized) -->
+    <appender name="JSON_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>logs/system-api.json.log</file>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                logs/middleware-%d{yyyy-MM-dd}.json.log
+            </fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
+            <includeMdcKeyName>traceId</includeMdcKeyName>
+            <includeMdcKeyName>spanId</includeMdcKeyName>
+            <customFields>{"service":"middleware","env":"dev"}</customFields>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="JSON_FILE"/>
+    </root>
+
+    <column>
+        <name>correlation_id</name>
+        <pattern>%X{correlationId}</pattern>
+    </column>
+
+</configuration>

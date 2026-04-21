@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: microservices
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser"]
+      interval: 5s
+      retries: 5
+
+
+  system-api:
+    build:
+      context: .
+      dockerfile: system-api/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/microservices
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+
+
+  middleware:
+    build:
+      context: .
+      dockerfile: middleware/Dockerfile
+    environment:
+      SYSTEM_API_URL: http://system-api:8081
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      system-api:
+        condition: service_started
+    ports:
+      - "8082:8082"
+
+
+  bff-gateway:
+    build:
+      context: .
+      dockerfile: bff-gateway/Dockerfile
+    environment:
+      MIDDLEWARE_URL: http://middleware:8082
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      middleware:
+        condition: service_started
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:

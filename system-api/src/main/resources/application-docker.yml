@@ -1,0 +1,9 @@
+server:
+  port: 8081
+
+
+services:
+  mysql:
+    image: mysql:8
+  app:
+    build: .

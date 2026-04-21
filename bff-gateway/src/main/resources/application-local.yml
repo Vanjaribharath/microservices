@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: bff-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: middleware-products-route
+          uri: http://localhost:8082
+          predicates:
+            - Path=/products
+          filters:
+            - RewritePath=/products,/middleware/products
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+middleware:
+  url: http://localhost:8082

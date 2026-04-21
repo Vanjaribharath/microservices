@@ -1,59 +1,309 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0">
+<!--&lt;!&ndash;<project xmlns="http://maven.apache.org/POM/4.0.0">&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <modelVersion>4.0.0</modelVersion>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <parent>&ndash;&gt;-->
+<!--&lt;!&ndash;        <groupId>com.capgemini.training</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;        <artifactId>microservices-training</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;        <version>1.0.0-SNAPSHOT</version>&ndash;&gt;-->
+<!--&lt;!&ndash;        <relativePath>../pom.xml</relativePath>&ndash;&gt;-->
+<!--&lt;!&ndash;    </parent>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <artifactId>bff-gateway</artifactId>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <dependencies>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        &lt;!&ndash; ✅ Spring Cloud Gateway &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>org.springframework.cloud</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>spring-cloud-starter-gateway</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        &lt;!&ndash; ✅ Feign Client &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>org.springframework.cloud</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>spring-cloud-starter-openfeign</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        &lt;!&ndash; ✅ Actuator &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>org.springframework.boot</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>spring-boot-starter-actuator</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>org.apache.tomcat.embed</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>tomcat-embed-core</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    </dependencies>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <build>&ndash;&gt;-->
+<!--&lt;!&ndash;        <plugins>&ndash;&gt;-->
+<!--&lt;!&ndash;            <plugin>&ndash;&gt;-->
+<!--&lt;!&ndash;                <groupId>org.springframework.boot</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                <artifactId>spring-boot-maven-plugin</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;            </plugin>&ndash;&gt;-->
+<!--&lt;!&ndash;        </plugins>&ndash;&gt;-->
+<!--&lt;!&ndash;    </build>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</project>&ndash;&gt;-->
+
+<!--<project xmlns="http://maven.apache.org/POM/4.0.0"-->
+<!--         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0-->
+<!--                             https://maven.apache.org/xsd/maven-4.0.0.xsd">-->
+
+<!--    <modelVersion>4.0.0</modelVersion>-->
+
+<!--    <parent>-->
+<!--        <groupId>com.capgemini.training</groupId>-->
+<!--        <artifactId>microservices-training</artifactId>-->
+<!--        <version>1.0.0-SNAPSHOT</version>-->
+<!--        <relativePath>../pom.xml</relativePath>-->
+<!--    </parent>-->
+
+<!--    <artifactId>bff-gateway</artifactId>-->
+
+<!--    <properties>-->
+<!--        <java.version>21</java.version>-->
+<!--    </properties>-->
+
+<!--    &lt;!&ndash; ✅ ONLY REACTIVE DEPENDENCIES &ndash;&gt;-->
+<!--    <dependencies>-->
+
+<!--        &lt;!&ndash; Spring Cloud Gateway (Reactive / Netty) &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-gateway</artifactId>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; Actuator &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; Logging (Lombok) &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; Testing &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-test</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-oauth2-jose</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>net.logstash.logback</groupId>-->
+<!--            <artifactId>logstash-logback-encoder</artifactId>-->
+<!--            <version>7.4</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-registry-prometheus</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.postgresql</groupId>-->
+<!--            <artifactId>postgresql</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-jdbc</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-jdbc</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.postgresql</groupId>-->
+<!--            <artifactId>postgresql</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+
+<!--    </dependencies>-->
+
+<!--    <build>-->
+<!--        <plugins>-->
+
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>3.11.0</version>-->
+<!--                <configuration>-->
+<!--                    <source>${java.version}</source>-->
+<!--                    <target>${java.version}</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
+<!--        </plugins>-->
+<!--    </build>-->
+
+<!--</project>-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Parent (root project BOM controls versions) -->
     <parent>
         <groupId>com.capgemini.training</groupId>
         <artifactId>microservices-training</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>com.capgemini.training</groupId>
 
     <artifactId>bff-gateway</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
 
-    <!-- ✅ ADD THIS -->
+    <properties>
+        <java.version>21</java.version>
+    </properties>
+
+    <!-- ✅ REACTIVE / GATEWAY ONLY DEPENDENCIES -->
     <dependencies>
+
+        <!-- Spring Cloud Gateway (Netty / WebFlux) -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
+
+        <!-- Actuator (health, metrics) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>3.2.5</version>
+        </dependency>
+
+        <!-- OAuth2 Resource Server (JWT validation) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+
+        <!-- JWT decoding support -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+
+        <!-- Reactive Redis (if gateway uses Redis filters) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+
+        <!-- JSON Logging -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>7.4</version>
+        </dependency>
+
+        <!-- Micrometer Prometheus -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <!-- PostgreSQL JDBC DRIVER (for manual JDBC logging ONLY) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Micrometer Tracing (OpenTelemetry bridge) -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-otel</artifactId>
+        </dependency>
+
+        <!-- OpenTelemetry Zipkin exporter -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-zipkin</artifactId>
+        </dependency>
+
+        <!-- Micrometer Observation -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-observation</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+
     </dependencies>
 
-    <!-- ✅ ADD THIS -->
     <build>
         <plugins>
+
+            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Java 21 Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerArgs>
-                        <arg>-parameters</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
+
         </plugins>
     </build>
 

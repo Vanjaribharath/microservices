@@ -1,0 +1,75 @@
+<!--<configuration>-->
+
+<!--    &lt;!&ndash; Console JSON logging &ndash;&gt;-->
+<!--    <appender name="JSON_CONSOLE"-->
+<!--              class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
+<!--            <includeMdcKeyName>correlationId</includeMdcKeyName>-->
+<!--            <customFields>{"service":"bff-gateway","env":"dev"}</customFields>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; PostgreSQL JDBC Appender &ndash;&gt;-->
+<!--    <appender name="DB"-->
+<!--              class="com.capgemini.training.logging.JdbcLogAppender">-->
+<!--        <url>jdbc:postgresql://localhost:5432/microservices</url>-->
+<!--&lt;!&ndash;        <url>&ndash;&gt;-->
+<!--&lt;!&ndash;            jdbc:postgresql://localhost:5432/microservices?currentSchema=microservices&ndash;&gt;-->
+<!--&lt;!&ndash;        </url>&ndash;&gt;-->
+<!--        <username>postgres</username>-->
+<!--        <password>1234</password>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; ROOT &ndash;&gt;-->
+<!--    <root level="INFO">-->
+<!--        <appender-ref ref="JSON_CONSOLE"/>-->
+<!--        <appender-ref ref="DB"/>-->
+<!--    </root>-->
+
+<!--</configuration>-->
+
+<configuration>
+
+    <!-- ===== Read values from Spring Environment ===== -->
+    <springProperty scope="context" name="SERVICE_NAME"
+                    source="app.logging.service-name"/>
+
+    <springProperty scope="context" name="DB_URL"
+                    source="app.logging.db-url"/>
+
+    <springProperty scope="context" name="DB_USERNAME"
+                    source="app.logging.db-username"/>
+
+    <springProperty scope="context" name="DB_PASSWORD"
+                    source="app.logging.db-password"/>
+
+    <springProperty scope="context" name="LOG_TABLE"
+                    source="app.logging.table-name"/>
+
+    <!-- ===== Console JSON logging ===== -->
+    <appender name="JSON_CONSOLE"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
+            <customFields>
+                {"service":"${SERVICE_NAME}","env":"dev"}
+            </customFields>
+        </encoder>
+    </appender>
+
+    <!-- ===== PostgreSQL DB logging ===== -->
+    <appender name="DB"
+              class="com.capgemini.training.logging.JdbcLogAppender">
+        <url>${DB_URL}</url>
+        <username>${DB_USERNAME}</username>
+        <password>${DB_PASSWORD}</password>
+        <serviceName>${SERVICE_NAME}</serviceName>
+        <tableName>${LOG_TABLE}</tableName>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="JSON_CONSOLE"/>
+        <appender-ref ref="DB"/>
+    </root>
+
+</configuration>
